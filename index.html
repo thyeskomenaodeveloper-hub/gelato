@@ -100,19 +100,24 @@
             color: #ffe18a;
         }
 
-        /* grade de produtos — lado a lado */
-        .produtos-grid {
+        /* CARROSSEL INFINITO */
+        .carousel-wrapper {
+            position: relative;
             max-width: 1300px;
             margin: 0 auto;
+            overflow: visible;
+            padding: 20px 0;
+        }
+
+        .produtos-grid {
             display: flex;
-            flex-wrap: wrap;
+            flex-wrap: wrap; /* Permite quebra de linha para mostrar tudo */
             justify-content: center;
             gap: 30px;
         }
 
         .card-produto {
-            flex: 1 1 300px;
-            min-width: 280px;
+            flex: 0 0 100%; /* Mobile: 1 card por vez */
             max-width: 380px;
             background: white;
             border-radius: 50px 50px 30px 30px;
@@ -124,12 +129,49 @@
             background: linear-gradient(145deg, #fbfbfb, #ffffff);
             display: flex;
             flex-direction: column;
+            margin: 0 auto; /* Centralizar se sobrar espaço */
+        }
+
+        /* Ajuste para telas maiores */
+        @media (min-width: 768px) {
+            .card-produto {
+                flex: 0 0 calc(50% - 15px); /* 2 cards */
+            }
+        }
+        @media (min-width: 1100px) {
+            .card-produto {
+                flex: 0 0 calc(33.333% - 20px); /* 3 cards */
+            }
         }
 
         .card-produto:hover {
             transform: translate(-3px, -3px);
             box-shadow: 25px 25px 0 #001a4d, 0 20px 30px black;
         }
+
+        /* Botões do Carrossel */
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #002776;
+            color: white;
+            border: 3px solid white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            cursor: pointer;
+            z-index: 10;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.2s;
+        }
+        .carousel-btn:hover { background: #0044cc; transform: translateY(-50%) scale(1.1); }
+        .prev-btn { left: 10px; }
+        .next-btn { right: 10px; }
 
         /* listras zebradas no card */
         .card-produto::after {
@@ -357,6 +399,20 @@
 
         /* responsividade */
         @media (max-width: 700px) {
+            .header-store {
+                flex-direction: column;
+                text-align: center;
+                padding: 20px 15px;
+                border-radius: 40px;
+            }
+            .logo h1 {
+                font-size: 2.2rem;
+            }
+            .carrinho-icon {
+                margin-top: 15px;
+                width: 100%;
+                justify-content: center;
+            }
             .produtos-grid {
                 flex-direction: column;
                 align-items: center;
@@ -364,6 +420,21 @@
             .card-produto {
                 max-width: 450px;
                 width: 100%;
+            }
+            .form-row {
+                flex-direction: column;
+            }
+            .preco-adicionar {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+            .btn-add {
+                width: 100%;
+                justify-content: center;
+            }
+            .checkout-section {
+                padding: 20px;
             }
         }
 
@@ -548,39 +619,37 @@
             <!-- CARD 3 - AÇAÍ PREMIUM (mais ingredientes) -->
             <div class="card-produto" data-produto="acai-premium">
                 <div class="produto-imagem">
-                    <div class="acai-icon"><i class="fas fa-cup-straw"></i></div>
-                    <span class="sabor-nome">AÇAÍ PREMIUM</span>
+                    <img id="img-garrafa" src="garrafa.webp" alt="Garrafa Açaí" style="width: 150px; height: auto; margin: 0 auto 15px auto; display: block; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                    <span class="sabor-nome">AÇAÍ NA GARRAFA</span>
                 </div>
 
                 <div class="tamanhos" data-produto-ref="premium">
-                    <div class="tamanho-btn selected" data-tamanho="330" data-produto="premium">330 <small>ml</small></div>
-                    <div class="tamanho-btn" data-tamanho="550" data-produto="premium">550 <small>ml</small></div>
-                    <div class="tamanho-btn" data-tamanho="770" data-produto="premium">770 <small>ml</small></div>
+                    <div class="tamanho-btn selected" data-tamanho="550" data-produto="premium">550 <small>ml</small></div>
                 </div>
 
                 <div class="ingredientes-area">
                     <div class="ingredientes-opcoes" data-produto-ing="premium">
-                        <span class="ing-item" data-ingrediente="banana" data-valor="4"><i class="fas fa-apple-alt"></i> Banana <small>(+R$4)</small></span>
-                        <span class="ing-item" data-ingrediente="morango" data-valor="4"><i class="fas fa-seedling"></i> Morango <small>(+R$4)</small></span>
-                        <span class="ing-item" data-ingrediente="uva" data-valor="4"><i class="fas fa-leaf"></i> Uva <small>(+R$4)</small></span>
-                        <span class="ing-item" data-ingrediente="kiwi" data-valor="4"><i class="fas fa-tree"></i> Kiwi <small>(+R$4)</small></span>
-                        <span class="ing-item" data-ingrediente="abacaxi" data-valor="4"><i class="fas fa-leaf"></i> Abacaxi <small>(+R$4)</small></span>
-                        <span class="ing-item" data-ingrediente="ovomaltine" data-valor="3"><i class="fas fa-mug-hot"></i> Ovomaltine <small>(+R$3)</small></span>
-                        <span class="ing-item" data-ingrediente="pacoca" data-valor="3"><i class="fas fa-candy-cane"></i> Paçoca <small>(+R$3)</small></span>
-                        <span class="ing-item" data-ingrediente="amendoim" data-valor="3"><i class="fas fa-seedling"></i> Amendoim <small>(+R$3)</small></span>
-                        <span class="ing-item" data-ingrediente="confete" data-valor="3"><i class="fas fa-dot-circle"></i> Confete <small>(+R$3)</small></span>
-                        <span class="ing-item" data-ingrediente="bis" data-valor="3"><i class="fas fa-cookie-bite"></i> Bis <small>(+R$3)</small></span>
-                        <span class="ing-item" data-ingrediente="canudo-waffer" data-valor="3"><i class="fas fa-grip-lines-vertical"></i> Canudo Waffer <small>(+R$3)</small></span>
-                        <span class="ing-item" data-ingrediente="chocoball" data-valor="3"><i class="fas fa-circle"></i> Chocoball <small>(+R$3)</small></span>
-                        <span class="ing-item" data-ingrediente="granola" data-valor="3"><i class="fas fa-wheat-alt"></i> Granola <small>(+R$3)</small></span>
-                        <span class="ing-item" data-ingrediente="leite-po" data-valor="4"><i class="fas fa-snowflake"></i> Leite em Pó <small>(+R$4)</small></span>
-                        <span class="ing-item" data-ingrediente="leite-condensado" data-valor="3"><i class="fas fa-tint"></i> Leite Condensado <small>(+R$3)</small></span>
+                        <span class="ing-item" data-ingrediente="banana" data-valor="0"><i class="fas fa-apple-alt"></i> Banana</span>
+                        <span class="ing-item" data-ingrediente="morango" data-valor="0"><i class="fas fa-seedling"></i> Morango</span>
+                        <span class="ing-item" data-ingrediente="uva" data-valor="0"><i class="fas fa-leaf"></i> Uva</span>
+                        <span class="ing-item" data-ingrediente="kiwi" data-valor="0"><i class="fas fa-tree"></i> Kiwi</span>
+                        <span class="ing-item" data-ingrediente="abacaxi" data-valor="0"><i class="fas fa-leaf"></i> Abacaxi</span>
+                        <span class="ing-item" data-ingrediente="ovomaltine" data-valor="0"><i class="fas fa-mug-hot"></i> Ovomaltine</span>
+                        <span class="ing-item" data-ingrediente="pacoca" data-valor="0"><i class="fas fa-candy-cane"></i> Paçoca</span>
+                        <span class="ing-item" data-ingrediente="amendoim" data-valor="0"><i class="fas fa-seedling"></i> Amendoim</span>
+                        <span class="ing-item" data-ingrediente="confete" data-valor="0"><i class="fas fa-dot-circle"></i> Confete</span>
+                        <span class="ing-item" data-ingrediente="bis" data-valor="0"><i class="fas fa-cookie-bite"></i> Bis</span>
+                        <span class="ing-item" data-ingrediente="canudo-waffer" data-valor="0"><i class="fas fa-grip-lines-vertical"></i> Canudo Waffer</span>
+                        <span class="ing-item" data-ingrediente="chocoball" data-valor="0"><i class="fas fa-circle"></i> Chocoball</span>
+                        <span class="ing-item" data-ingrediente="granola" data-valor="0"><i class="fas fa-wheat-alt"></i> Granola</span>
+                        <span class="ing-item" data-ingrediente="leite-po" data-valor="0"><i class="fas fa-snowflake"></i> Leite em Pó</span>
+                        <span class="ing-item" data-ingrediente="leite-condensado" data-valor="0"><i class="fas fa-tint"></i> Leite Condensado</span>
                         <span class="ing-item" data-ingrediente="creme-iorgute" data-valor="3"><i class="fas fa-ice-cream"></i> Creme de Iogurte <small>(+R$3)</small></span>
                         <span class="ing-item" data-ingrediente="creme-cupuacu" data-valor="3"><i class="fas fa-leaf"></i> Creme de Cupuaçu <small>(+R$3)</small></span>
                         <span class="ing-item" data-ingrediente="sorvete-manga" data-valor="3"><i class="fas fa-ice-cream"></i> Creme de Manga <small>(+R$3)</small></span>
                         <span class="ing-item" data-ingrediente="sorvete-maracuja" data-valor="3"><i class="fas fa-ice-cream"></i> Creme de Maracujá <small>(+R$3)</small></span>
-                        <span class="ing-item" data-ingrediente="farofa-amendoim" data-valor="3"><i class="fas fa-mortar-pestle"></i> Farofa de Amendoim <small>(+R$3)</small></span>
-                        <span class="ing-item" data-ingrediente="gotas-chocolate" data-valor="3"><i class="fas fa-tint"></i> Gotas de Chocolate <small>(+R$3)</small></span>
+                        <span class="ing-item" data-ingrediente="farofa-amendoim" data-valor="0"><i class="fas fa-mortar-pestle"></i> Farofa de Amendoim</span>
+                        <span class="ing-item" data-ingrediente="gotas-chocolate" data-valor="0"><i class="fas fa-tint"></i> Gotas de Chocolate</span>
                         <span class="ing-item" data-ingrediente="nutella" data-valor="7"><i class="fas fa-chocolate"></i> Nutella <small>(+R$7)</small></span>
                         <span class="ing-item" data-ingrediente="creme-kit-kat" data-valor="5"><i class="fas fa-chocolate"></i> Creme de Kit Kat <small>(+R$5)</small></span>
                         <span class="ing-item" data-ingrediente="creme-avelan" data-valor="5"><i class="fas fa-seedling"></i> Creme de Avelã <small>(+R$5)</small></span>
@@ -592,7 +661,7 @@
                 </div>
 
                 <div class="preco-adicionar">
-                    <span class="preco" data-preco-base="24" data-produto="premium">R$ 24<small>,00</small></span>
+                    <span class="preco" data-preco-base="15" data-produto="premium">R$ 15<small>,00</small></span>
                     <button class="btn-add" data-produto-add="premium"><i class="fas fa-cart-plus"></i> +</button>
                 </div>
             </div>
@@ -610,6 +679,13 @@
 
             <div class="checkout-form">
                 <h3><i class="fas fa-map-marker-alt"></i> Dados de Entrega</h3>
+                <div class="form-group">
+                    <label>Opção de Recebimento:</label>
+                    <select id="tipo-entrega">
+                        <option value="retirada">Retirada no Local</option>
+                        <option value="entrega">Entrega (+R$ 4,00)</option>
+                    </select>
+                </div>
                 <div class="form-group">
                     <label>Nome:</label>
                     <input type="text" id="cliente-nome" placeholder="Seu nome completo">
@@ -652,7 +728,7 @@
             const precosBase = {
                 'tradicional': { 330: 18, 550: 21, 770: 24 },
                 'especial': { 330: 21, 550: 24, 770: 27 },
-                'premium': { 330: 24, 550: 27, 770: 30 }
+                'premium': { 330: 15, 550: 15, 770: 21 }
             };
 
             // atualiza preço do produto baseado no tamanho selecionado
@@ -695,6 +771,20 @@
                             imgElement.src = imagensCopos[tamanho];
                         }
                     }
+
+                    // ---- Lógica para trocar a imagem do Açaí na Garrafa ----
+                    if (produtoRef === 'premium') {
+                        const imgElement = document.getElementById('img-garrafa');
+                        // Substitua pelos nomes reais dos arquivos das garrafas se tiver tamanhos diferentes
+                        const imagensGarrafas = {
+                            '330': 'GARRAFA.webp',
+                            '550': 'GARRAFA.webp',
+                            '770': 'GARRAFA.webp'
+                        };
+                        if (imgElement && imagensGarrafas[tamanho]) {
+                            imgElement.src = imagensGarrafas[tamanho];
+                        }
+                    }
                 });
             });
 
@@ -713,6 +803,7 @@
             function renderCart() {
                 const container = document.getElementById('cart-items');
                 const totalEl = document.getElementById('cart-total-value');
+                const tipoEntrega = document.getElementById('tipo-entrega');
                 if(!container) return;
                 
                 container.innerHTML = '';
@@ -739,7 +830,12 @@
                     });
                 }
                 
-                totalEl.innerText = 'R$ ' + total.toFixed(2).replace('.', ',');
+                let taxa = 0;
+                if (cart.length > 0 && tipoEntrega && tipoEntrega.value === 'entrega') {
+                    taxa = 4;
+                }
+                
+                totalEl.innerText = 'R$ ' + (total + taxa).toFixed(2).replace('.', ',');
                 carrinhoCounter.innerHTML = `<i class="fas fa-shopping-bag"></i> ${cart.length} itens`;
 
                 // listeners de remover
@@ -750,6 +846,12 @@
                         renderCart();
                     });
                 });
+            }
+
+            // Atualizar total ao mudar tipo de entrega
+            const selEntrega = document.getElementById('tipo-entrega');
+            if(selEntrega) {
+                selEntrega.addEventListener('change', renderCart);
             }
 
             document.querySelectorAll('.btn-add').forEach(btn => {
@@ -804,16 +906,22 @@
                     const rua = document.getElementById('cliente-rua').value;
                     const numero = document.getElementById('cliente-numero').value;
                     const pag = document.getElementById('cliente-pagamento').value;
+                    const tipo = document.getElementById('tipo-entrega').value;
 
-                    if(!nome || !bairro || !rua || !numero) {
-                        alert('Por favor, preencha Nome, Bairro, Rua e Número.');
-                        return;
+                    if (tipo === 'entrega') {
+                        if(!nome || !bairro || !rua || !numero) {
+                            alert('Para entrega, preencha Nome, Bairro, Rua e Número.');
+                            return;
+                        }
+                    } else {
+                        if(!nome) { alert('Por favor, preencha seu Nome.'); return; }
                     }
 
-                    let resumo = `PEDIDO CONFIRMADO!\n\nCliente: ${nome}\nEndereço: ${rua}, ${numero} - ${bairro}\nPagamento: ${pag}\n\nITENS:\n`;
+                    let resumo = `PEDIDO CONFIRMADO!\n\nCliente: ${nome}\nTipo: ${tipo.toUpperCase()}\nEndereço: ${rua}, ${numero} - ${bairro}\nPagamento: ${pag}\n\nITENS:\n`;
                     cart.forEach(item => {
                         resumo += `- ${item.name} (${item.size}): R$ ${item.price.toFixed(2)}\n  Obs: ${item.ingredientes}\n`;
                     });
+                    if(tipo === 'entrega') resumo += `\nTaxa de Entrega: R$ 4,00`;
                     resumo += `\nTOTAL: ${document.getElementById('cart-total-value').innerText}`;
 
                     alert(resumo);
@@ -833,6 +941,57 @@
             }
             initPrecos();
 
+            // ---- Lógica do Carrossel Infinito ----
+            const track = document.querySelector('.produtos-grid');
+            const nextBtn = document.querySelector('.next-btn');
+            const prevBtn = document.querySelector('.prev-btn');
+            let isAnimating = false;
+
+            function moveNext() {
+                if (isAnimating) return;
+                isAnimating = true;
+                
+                const card = track.querySelector('.card-produto');
+                const cardWidth = card.offsetWidth;
+                const gap = 30; // valor do gap no CSS
+                
+                track.style.transform = `translateX(-${cardWidth + gap}px)`;
+                
+                track.addEventListener('transitionend', () => {
+                    track.appendChild(track.firstElementChild);
+                    track.style.transition = 'none';
+                    track.style.transform = 'translateX(0)';
+                    setTimeout(() => {
+                        track.style.transition = 'transform 0.5s ease-in-out';
+                        isAnimating = false;
+                    }, 10);
+                }, { once: true });
+            }
+
+            function movePrev() {
+                if (isAnimating) return;
+                isAnimating = true;
+                
+                const card = track.querySelector('.card-produto');
+                const cardWidth = card.offsetWidth;
+                const gap = 30;
+                
+                track.style.transition = 'none';
+                track.insertBefore(track.lastElementChild, track.firstElementChild);
+                track.style.transform = `translateX(-${cardWidth + gap}px)`;
+                
+                setTimeout(() => {
+                    track.style.transition = 'transform 0.5s ease-in-out';
+                    track.style.transform = 'translateX(0)';
+                    track.addEventListener('transitionend', () => isAnimating = false, { once: true });
+                }, 10);
+            }
+            
+            if(nextBtn && prevBtn) {
+                nextBtn.addEventListener('click', moveNext);
+                prevBtn.addEventListener('click', movePrev);
+            }
+
             // bônus: manter a estética de listras zebradas com clique suave
         })();
     </script>
@@ -843,7 +1002,7 @@
             const mapping = {
                 'tradicional': { 330: 18, 550: 21, 770: 24 },
                 'especial': { 330: 21, 550: 24, 770: 27 },
-                'premium': { 330: 24, 550: 27, 770: 30 }
+                'premium': { 330: 15, 550: 15, 770: 21 }
             };
             document.querySelectorAll('.tamanhos').forEach(cont => {
                 const ref = cont.dataset.produtoRef;
